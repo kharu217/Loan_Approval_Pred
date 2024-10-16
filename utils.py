@@ -9,8 +9,8 @@ datapath = r'C:\Users\User\Desktop\github\Loan_Approval_Pred\data\train.csv'
 test_datapath = r'C:\Users\User\Desktop\github\Loan_Approval_Pred\data\test.csv'
 epochs = 200
 
-std_scale = sklearn.preprocessing.StandardScaler()
+std_scale = sklearn.preprocessing.MinMaxScaler()
 
 def str_key(data_f, dict) :
-    r_lst = np.array([list(map(lambda x : dict[x], data_f))])
+    r_lst = torch.tensor((list(map(lambda x : dict[x], data_f))))
     return r_lst
