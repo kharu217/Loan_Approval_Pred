@@ -39,15 +39,15 @@ class loan_data(Dataset) :
                                                                  'loan_status'])].values)
 
         self.person_home_own = dataframe.loc[:, 'person_home_ownership'].values
-        self.person_home_own = torch.nn.functional.one_hot(str_key(self.person_home_own, p_home_own))
+        self.person_home_own = str_key(self.person_home_own, p_home_own).reshape
 
         self.loan_intent = dataframe.loc[:, 'loan_intent'].values
-        self.loan_intent = torch.nn.functional.one_hot(str_key(self.loan_intent, intent))
+        self.loan_intent = str_key(self.loan_intent, intent)
 
         self.loan_grade = dataframe.loc[:, 'loan_grade'].values
-        self.loan_grade = torch.nn.functional.one_hot(str_key(self.loan_grade, grade))
+        self.loan_grade = str_key(self.loan_grade, grade)
 
-        self.feature = np.concatenate((self.feature, self.person_home_own, self.loan_intent, self.loan_grade), axis=1)
+        self.feature = torch.cat((self.feature, self.person_home_own, self.loan_intent, self.loan_grade), dim=1)
         self.label = dataframe.loc[:, 'loan_status'].values
 
     def __len__(self) :
@@ -57,4 +57,5 @@ class loan_data(Dataset) :
         return self.feature[index], torch.tensor([self.label[index]]).float()
 
 train_data = loan_data(datapath)
-train_dataload = DataLoader(train_data, shuffle=True, batch_size=128)
+train_dataload = DataLoader(train_data, shuffle=True, batch_size=1)
+print(train_dataload.dataset[:10])

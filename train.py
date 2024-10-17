@@ -4,6 +4,7 @@ import model
 import tqdm
 
 model_t = model.loan_classify()
+model_t.load_state_dict(torch.load(r'C:\Users\User\Desktop\github\Loan_Approval_Pred\model_save\loan_model.h5'))
 
 loss_fn = torch.nn.BCELoss()
 optimizer = torch.optim.Adam(model_t.parameters(), 1e-3)
@@ -21,3 +22,5 @@ for i in range(epochs) :
         optimizer.step()
         epoch_loss += loss.item()       
     print(f'{i} loss : {epoch_loss / len(data.train_dataload)}')
+
+torch.save(model_t.state_dict(), r'C:\Users\User\Desktop\github\Loan_Approval_Pred\model_save\loan_model.h5')
